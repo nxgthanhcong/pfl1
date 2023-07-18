@@ -29,13 +29,52 @@ navLinks.forEach(element => {
 
 
 /*==================== QUALIFICATION TABS ====================*/
+const tabs = $$('.qualification__button');
+const tabContents = $$('.qualification__content');
 
+tabs.forEach(tab => {
+    tab.addEventListener('click', function (e) {
+        debugger
+        const target = $(tab.dataset.target);
+        tabContents.forEach(tabContent => {
+            tabContent.classList.remove('qualification--active');
+        })
+        tabs.forEach(tab => {
+            tab.classList.remove('qualification--active');
+        })
+        target.classList.add('qualification--active');
+        tab.classList.add('qualification--active');
+    })
+})
 
 /*==================== SERVICES MODAL ====================*/
 
+const modals = $$('.service__modal');
+const modalOpenbtns = $$('.service__button');
+const modalClosebtns = $$('.service__modal-close');
+
+modalOpenbtns.forEach(function (btn, index) {
+    btn.addEventListener('click', function () {
+        modals[index].classList.add('modal--active');
+    })
+})
+
+modalClosebtns.forEach(function (closeBtn) {
+    closeBtn.addEventListener('click', function () {
+        modals.forEach(function (modal) {
+            modal.classList.remove('modal--active');
+        })
+    })
+})
 
 /*==================== PORTFOLIO SWIPER  ====================*/
-
+var swiper = new Swiper(".swiper", {
+    loop: true,
+    navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+    },
+});
 
 /*==================== TESTIMONIAL ====================*/
 
