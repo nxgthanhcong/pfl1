@@ -77,15 +77,77 @@ var swiper = new Swiper(".swiper", {
 });
 
 /*==================== TESTIMONIAL ====================*/
-
+var swiper2 = new Swiper(".testimonial-swipper", {
+    grabCursor: true,
+    spaceBetween: 48,
+    clickabled: true,
+    pagination: {
+        el: ".swiper-pagination",
+        dynamicBullets: true,
+    },
+    breakpoints: {
+        568: { slidesPerView: 2 }
+    }
+});
 
 /*==================== SCROLL SECTIONS ACTIVE LINK ====================*/
 
+const sections = $$(".section[id]");
+
+function scrollActive() {
+    const scrollY = window.pageYOffset;
+    sections.forEach(item => {
+        const sectionHeight = item.offsetHeight;
+        const sectionTop = item.offsetTop - 50;
+        sectionId = item.getAttribute('id');
+
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+            console.log(`.nav__menu a[href*=${sectionId}]`)
+            $(`.nav__menu a[href*=${sectionId}]`).classList.add('active-link');
+        } else {
+            $(`.nav__menu a[href*=${sectionId}]`).classList.remove('active-link');
+        }
+
+    })
+}
+
+window.addEventListener('scroll', scrollActive);
+
 
 /*==================== CHANGE BACKGROUND HEADER ====================*/
-
+function scrollHeader() {
+    const header = $('#header');
+    if (window.scrollY >= 80) {
+        header.classList.add('scroll-header');
+    } else {
+        header.classList.remove('scroll-header');
+    }
+}
+window.addEventListener('scroll', scrollHeader);
 
 /*==================== SHOW SCROLL UP ====================*/
 
 
-/*==================== DARK LIGHT THEME ====================*/ 
+/*==================== DARK LIGHT THEME ====================*/
+const themeButton = $('#theme-btn');
+const darkTheme = 'dark-theme';
+const iconTheme = 'uil-sun';
+
+const selectedTheme = localStorage.getItem('selected-theme');
+const selectedIcon = localStorage.getItem('selected-icon');
+
+const getCurrentTheme = () => $('body').classList.contains(darkTheme) ? 'dark' : 'light';
+const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'uil-moon' : 'uil-sun';
+
+if (selectedTheme) {
+    $('body').classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme);
+    themeButton.classList[selectedIcon === 'uil-moon' ? 'add' : 'remove'](iconTheme);
+}
+
+themeButton.addEventListener('click', function () {
+    $('body').classList.toggle(darkTheme);
+    themeButton.classList.toggle(iconTheme);
+
+    localStorage.setItem('selected-theme', getCurrentTheme());
+    localStorage.setItem('selected-icon', getCurrentIcon());
+})
